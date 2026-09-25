@@ -1,0 +1,13 @@
+services:
+  salesforce-router:
+    build: .
+    env_file: .env
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$${PORT:-8080}/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 3m
+    restart: unless-stopped
